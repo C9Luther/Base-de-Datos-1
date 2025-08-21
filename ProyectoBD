@@ -1,8 +1,8 @@
 CREATE TABLE Usuarios (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contraseña VARCHAR(255) NOT NULL,
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fecha_registro DATETIME DEFAULT GETDATE(),
     estado TINYINT DEFAULT 1
 );
