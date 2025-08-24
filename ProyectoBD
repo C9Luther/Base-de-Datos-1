@@ -6,3 +6,9 @@ CREATE TABLE Usuarios (
     fecha_registro DATETIME DEFAULT GETDATE(),
     estado TINYINT DEFAULT 1
 );
+INSERT INTO Usuarios (nombre, email, contraseña)
+VALUES 
+('Ana Gómez', 'ana.gomez@example.com', 'claveAna2025'),
+('Luis Ramos', 'luis.ramos@example.com', 'passwordLuis!'),
+('María López', 'maria.lopez@example.com', 'mariaSegura#1');
+
