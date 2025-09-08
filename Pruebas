@@ -1,0 +1,58 @@
+INNER JOIN:
+
+SELECT p.titulo, p.fecha_creacion, u.nombre AS autor
+FROM Publicaciones p
+INNER JOIN Usuarios u ON p.id_usuario = u.id_usuario;
+
+LEFT JOIN:
+
+SELECT u.nombre, p.titulo
+FROM Usuarios u
+LEFT JOIN Publicaciones p ON u.id_usuario = p.id_usuario
+ORDER BY u.nombre;
+
+WHERE + LIKE:
+
+SELECT titulo, contenido
+FROM Publicaciones
+WHERE contenido LIKE '%contenido%';
+
+BETWEEN:
+
+SELECT titulo, fecha_creacion
+FROM Publicaciones
+WHERE fecha_creacion BETWEEN '2025-01-01' AND '2025-12-31';
+
+IN:
+
+SELECT c.comentario, u.nombre
+FROM Comentarios c
+INNER JOIN Usuarios u ON c.id_usuario = u.id_usuario
+WHERE u.nombre IN ('Ana Gómez', 'Luis Ramos');
+
+IS NULL:
+
+SELECT u.nombre
+FROM Usuarios u
+LEFT JOIN Publicaciones p ON u.id_usuario = p.id_usuario
+WHERE p.id_publicacion IS NULL;
+
+GROUP BY + HAVING:
+
+SELECT u.nombre, COUNT(p.id_publicacion) AS total_publicaciones
+FROM Usuarios u
+INNER JOIN Publicaciones p ON u.id_usuario = p.id_usuario
+GROUP BY u.nombre
+HAVING COUNT(p.id_publicacion) > 1;
+
+CASE:
+
+SELECT u.nombre,
+       CASE r.nombre_rol
+            WHEN 'Administrador' THEN 'Tiene todos los privilegios'
+            WHEN 'Editor' THEN 'Puede crear y editar contenido'
+            WHEN 'Lector' THEN 'Solo puede leer'
+            ELSE 'Rol desconocido'
+       END AS descripcion_rol
+FROM Usuarios u
+INNER JOIN Roles r ON u.id_rol = r.id_rol;
