@@ -1,0 +1,51 @@
+-- Tabla principal de usuarios
+CREATE TABLE Usuarios (
+    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    contraseña VARCHAR(255) NOT NULL,
+    fecha_registro DATETIME DEFAULT GETDATE(),
+    estado TINYINT DEFAULT 1
+);
+
+-- Tabla de roles
+CREATE TABLE Roles (
+    id_rol INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- Relación usuario - rol (muchos a uno)
+ALTER TABLE Usuarios
+ADD id_rol INT FOREIGN KEY REFERENCES Roles(id_rol);
+
+-- Tabla de publicaciones
+CREATE TABLE Publicaciones (
+    id_publicacion INT IDENTITY(1,1) PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_creacion DATETIME DEFAULT GETDATE(),
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+);
+
+-- Tabla de comentarios
+CREATE TABLE Comentarios (
+    id_comentario INT IDENTITY(1,1) PRIMARY KEY,
+    comentario TEXT NOT NULL,
+    fecha_comentario DATETIME DEFAULT GETDATE(),
+    id_usuario INT NOT NULL,
+    id_publicacion INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+    FOREIGN KEY (id_publicacion) REFERENCES Publicaciones(id_publicacion)
+);
+
+-- Tabla de reacciones
+CREATE TABLE Reacciones (
+    id_reaccion INT IDENTITY(1,1) PRIMARY KEY,
+    tipo VARCHAR(20) CHECK (tipo IN ('Like','Dislike','Love','Wow')),
+    id_usuario INT NOT NULL,
+    id_publicacion INT NOT NULL,
+    fecha_reaccion DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+    FOREIGN KEY (id_publicacion) REFERENCES Publicaciones(id_publicacion)
+);
