@@ -8,31 +8,6 @@ CREATE TABLE Categorias (
     nombre_categoria VARCHAR(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE Publicaciones (
-    id_publicacion INT IDENTITY(1,1) PRIMARY KEY,
-    titulo VARCHAR(100) NOT NULL,
-    contenido TEXT NOT NULL,
-    fecha_creacion DATETIME DEFAULT GETDATE(),
-    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
-    id_categoria INT FOREIGN KEY REFERENCES Categorias(id_categoria)
-);
-
-CREATE TABLE Comentarios (
-    id_comentario INT IDENTITY(1,1) PRIMARY KEY,
-    comentario TEXT NOT NULL,
-    fecha_comentario DATETIME DEFAULT GETDATE(),
-    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
-    id_publicacion INT NOT NULL FOREIGN KEY REFERENCES Publicaciones(id_publicacion)
-);
-
-CREATE TABLE Reacciones (
-    id_reaccion INT IDENTITY(1,1) PRIMARY KEY,
-    tipo VARCHAR(20) CHECK (tipo IN ('Like','Dislike','Love','Wow')),
-    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
-    id_publicacion INT NOT NULL FOREIGN KEY REFERENCES Publicaciones(id_publicacion),
-    fecha_reaccion DATETIME DEFAULT GETDATE()
-);
-
 CREATE TABLE Etiquetas (
     id_etiqueta INT IDENTITY(1,1) PRIMARY KEY,
     nombre_etiqueta VARCHAR(50) NOT NULL UNIQUE
