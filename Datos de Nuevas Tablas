@@ -3,33 +3,6 @@
 INSERT INTO Categorias (nombre_categoria)
 VALUES ('Tecnología'), ('Cocina'), ('Viajes'), ('Deportes'), ('Arte');
 
--- Publicaciones
-INSERT INTO Publicaciones (titulo, contenido, id_usuario, id_categoria)
-VALUES
-('Cómo aprender SQL rápido', 'Aquí te explico cómo...', 1, 1),
-('Mi receta favorita de lasaña', 'Primero cocinamos la carne...', 2, 2),
-('Viaje a Machu Picchu', 'Una experiencia inolvidable...', 3, 3),
-('El mejor entrenamiento de pierna', 'Rutina de gimnasio...', 5, 4),
-('Galería de arte en Madrid', 'Hoy visité una exposición...', 4, 5);
-
--- Comentarios
-INSERT INTO Comentarios (comentario, id_usuario, id_publicacion)
-VALUES
-('Excelente publicación!', 2, 1),
-('Lo intentaré hacer este fin de semana', 3, 2),
-('Qué bonito lugar!', 1, 3),
-('Me encantan las rutinas intensas', 4, 4),
-('Muy buena reseña', 5, 5);
-
--- Reacciones
-INSERT INTO Reacciones (tipo, id_usuario, id_publicacion)
-VALUES
-('Like', 2, 1),
-('Love', 3, 3),
-('Wow', 4, 5),
-('Like', 1, 2),
-('Dislike', 5, 4);
-
 -- Etiquetas
 INSERT INTO Etiquetas (nombre_etiqueta)
 VALUES ('SQL'), ('Comida'), ('Aventura'), ('Fitness'), ('Museos');
