@@ -1,0 +1,75 @@
+
+-- Limpieza previa (solo para entorno de pruebas)
+DROP TABLE IF EXISTS PublicacionEtiqueta, Etiquetas, Comentarios, Reacciones, Publicaciones, Notificaciones, Amistades, Mensajes, Usuarios, Roles, Categorias;
+GO
+
+CREATE TABLE Roles (
+    id_rol INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Categorias (
+    id_categoria INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_categoria VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Publicaciones (
+    id_publicacion INT IDENTITY(1,1) PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_creacion DATETIME DEFAULT GETDATE(),
+    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    id_categoria INT FOREIGN KEY REFERENCES Categorias(id_categoria)
+);
+
+CREATE TABLE Comentarios (
+    id_comentario INT IDENTITY(1,1) PRIMARY KEY,
+    comentario TEXT NOT NULL,
+    fecha_comentario DATETIME DEFAULT GETDATE(),
+    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    id_publicacion INT NOT NULL FOREIGN KEY REFERENCES Publicaciones(id_publicacion)
+);
+
+CREATE TABLE Reacciones (
+    id_reaccion INT IDENTITY(1,1) PRIMARY KEY,
+    tipo VARCHAR(20) CHECK (tipo IN ('Like','Dislike','Love','Wow')),
+    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    id_publicacion INT NOT NULL FOREIGN KEY REFERENCES Publicaciones(id_publicacion),
+    fecha_reaccion DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE Etiquetas (
+    id_etiqueta INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_etiqueta VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE PublicacionEtiqueta (
+    id_publicacion INT FOREIGN KEY REFERENCES Publicaciones(id_publicacion),
+    id_etiqueta INT FOREIGN KEY REFERENCES Etiquetas(id_etiqueta),
+    PRIMARY KEY (id_publicacion, id_etiqueta)
+);
+
+CREATE TABLE Amistades (
+    id_amistad INT IDENTITY(1,1) PRIMARY KEY,
+    id_usuario1 INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    id_usuario2 INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    estado VARCHAR(20) CHECK (estado IN ('Pendiente','Aceptada','Bloqueada')),
+    fecha_inicio DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE Mensajes (
+    id_mensaje INT IDENTITY(1,1) PRIMARY KEY,
+    id_emisor INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    id_receptor INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    contenido TEXT NOT NULL,
+    fecha_envio DATETIME DEFAULT GETDATE(),
+    leido BIT DEFAULT 0
+);
+
+CREATE TABLE Notificaciones (
+    id_notificacion INT IDENTITY(1,1) PRIMARY KEY,
+    id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuarios(id_usuario),
+    mensaje VARCHAR(255),
+    leida BIT DEFAULT 0,
+    fecha_notificacion DATETIME DEFAULT GETDATE()
+);
