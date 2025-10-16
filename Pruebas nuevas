@@ -1,0 +1,84 @@
+
+-- 1️⃣ EXISTS: Mostrar usuarios que han hecho al menos una publicación
+SELECT u.nombre, u.email
+FROM Usuarios u
+WHERE EXISTS (
+    SELECT 1 
+    FROM Publicaciones p 
+    WHERE p.id_usuario = u.id_usuario
+);
+
+-- 2️⃣ NOT EXISTS: Usuarios que NO han publicado nada
+SELECT u.nombre, u.email
+FROM Usuarios u
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Publicaciones p
+    WHERE p.id_usuario = u.id_usuario
+);
+
+-- 3️⃣ UNION: combinar títulos de publicaciones y comentarios (sin duplicados)
+SELECT titulo AS texto, 'Publicación' AS tipo
+FROM Publicaciones
+UNION
+SELECT comentario, 'Comentario'
+FROM Comentarios;
+
+-- 4️⃣ UNION ALL: igual que UNION pero muestra duplicados
+SELECT titulo AS texto, 'Publicación' AS tipo
+FROM Publicaciones
+UNION ALL
+SELECT comentario, 'Comentario'
+FROM Comentarios;
+
+-- 5️⃣ INSERT: añadir nuevo usuario
+INSERT INTO Usuarios (nombre, email, contraseña, id_rol)
+VALUES ('Nuevo Usuario', 'nuevo.user@example.com', 'clave1234', 3);
+
+-- 6️⃣ UPDATE: cambiar el rol de un usuario
+UPDATE Usuarios
+SET id_rol = 1
+WHERE nombre = 'María López';
+
+-- 7️⃣ DELETE: eliminar una reacción específica
+DELETE FROM Reacciones
+WHERE tipo = 'Dislike' AND id_usuario = 1;
+
+-- 8️⃣ PIVOT: cantidad de reacciones por tipo (resumen tipo tabla dinámica)
+SELECT *
+FROM (
+    SELECT tipo, id_publicacion
+    FROM Reacciones
+) AS Fuente
+PIVOT (
+    COUNT(id_publicacion)
+    FOR tipo IN ([Like], [Love], [Wow])
+) AS PivotTable;
+
+-- 9️⃣ RIGHT JOIN: mostrar todas las publicaciones, incluso si no tienen comentarios
+SELECT p.titulo, c.comentario, u.nombre AS autor_comentario
+FROM Comentarios c
+RIGHT JOIN Publicaciones p ON c.id_publicacion = p.id_publicacion
+LEFT JOIN Usuarios u ON c.id_usuario = u.id_usuario
+ORDER BY p.titulo;
+
+-- 🔟 CROSS JOIN: combina todos los usuarios con todos los roles
+SELECT u.nombre AS Usuario, r.nombre_rol AS RolPosible
+FROM Usuarios u
+CROSS JOIN Roles r;
+
+-- 1️⃣1️⃣ TRANSACCIONES (COMMIT / ROLLBACK)
+BEGIN TRANSACTION;
+
+-- Insertar un nuevo post y comentario (ejemplo de transacción)
+INSERT INTO Publicaciones (titulo, contenido, id_usuario)
+VALUES ('Transacciones en SQL', 'Ejemplo práctico con COMMIT y ROLLBACK.', 2);
+
+INSERT INTO Comentarios (comentario, id_usuario, id_publicacion)
+VALUES ('Excelente ejemplo!', 3, SCOPE_IDENTITY());
+
+-- Si todo sale bien, confirmamos los cambios
+COMMIT TRANSACTION;
+
+-- Si algo falla, podríamos hacer:
+-- ROLLBACK TRANSACTION;
