@@ -1,8 +1,4 @@
 
--- Roles
-INSERT INTO Roles (nombre_rol)
-VALUES ('Administrador'), ('Moderador'), ('Usuario');
-
 -- Categorías
 INSERT INTO Categorias (nombre_categoria)
 VALUES ('Tecnología'), ('Cocina'), ('Viajes'), ('Deportes'), ('Arte');
