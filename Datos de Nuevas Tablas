@@ -1,0 +1,73 @@
+
+-- Roles
+INSERT INTO Roles (nombre_rol)
+VALUES ('Administrador'), ('Moderador'), ('Usuario');
+
+-- Categorías
+INSERT INTO Categorias (nombre_categoria)
+VALUES ('Tecnología'), ('Cocina'), ('Viajes'), ('Deportes'), ('Arte');
+
+-- Publicaciones
+INSERT INTO Publicaciones (titulo, contenido, id_usuario, id_categoria)
+VALUES
+('Cómo aprender SQL rápido', 'Aquí te explico cómo...', 1, 1),
+('Mi receta favorita de lasaña', 'Primero cocinamos la carne...', 2, 2),
+('Viaje a Machu Picchu', 'Una experiencia inolvidable...', 3, 3),
+('El mejor entrenamiento de pierna', 'Rutina de gimnasio...', 5, 4),
+('Galería de arte en Madrid', 'Hoy visité una exposición...', 4, 5);
+
+-- Comentarios
+INSERT INTO Comentarios (comentario, id_usuario, id_publicacion)
+VALUES
+('Excelente publicación!', 2, 1),
+('Lo intentaré hacer este fin de semana', 3, 2),
+('Qué bonito lugar!', 1, 3),
+('Me encantan las rutinas intensas', 4, 4),
+('Muy buena reseña', 5, 5);
+
+-- Reacciones
+INSERT INTO Reacciones (tipo, id_usuario, id_publicacion)
+VALUES
+('Like', 2, 1),
+('Love', 3, 3),
+('Wow', 4, 5),
+('Like', 1, 2),
+('Dislike', 5, 4);
+
+-- Etiquetas
+INSERT INTO Etiquetas (nombre_etiqueta)
+VALUES ('SQL'), ('Comida'), ('Aventura'), ('Fitness'), ('Museos');
+
+-- Publicacion-Etiqueta
+INSERT INTO PublicacionEtiqueta (id_publicacion, id_etiqueta)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
+
+-- Amistades
+INSERT INTO Amistades (id_usuario1, id_usuario2, estado)
+VALUES
+(1, 2, 'Aceptada'),
+(1, 3, 'Pendiente'),
+(2, 4, 'Aceptada'),
+(3, 5, 'Aceptada');
+
+-- Mensajes
+INSERT INTO Mensajes (id_emisor, id_receptor, contenido)
+VALUES
+(1, 2, 'Hola Ana, ¿cómo estás?'),
+(2, 1, 'Bien, gracias Juan!'),
+(3, 5, '¿Vamos al gimnasio mañana?'),
+(5, 3, 'Claro, a las 7am.');
+
+-- Notificaciones
+INSERT INTO Notificaciones (id_usuario, mensaje)
+VALUES
+(1, 'Tu publicación recibió un like.'),
+(2, 'Tienes una nueva solicitud de amistad.'),
+(3, 'Has recibido un mensaje nuevo.'),
+(4, 'Tu comentario fue respondido.'),
+(5, 'Tu publicación fue destacada.');
